@@ -1,0 +1,86 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+*.log
+
+.envrc
+.cache
+./configs/
+build/*
+cloud_sql_proxy
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+client
+
+pkg/genproto/*/web
+pkg/genproto/*/dart
+
+pkg/manabuf-dart
+pkg/manabuf-ts
+pkg/manabuf-*-ts
+
+.idea/
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+*_credential.json
+*_sa.json
+
+.DS_Store
+
+cmd/server/server
+cmd/utils/utils
+cmd/utils/firebaseKey.json
+
+cover.*
+cover/*.out
+cover/merged.cov
+
+./deployments/helm/manabie-all-in-one/charts/*/secrets/*/local
+*.secrets.yaml
+*.pem
+!internal/shamir/services/test_invalid_pem_01.pem
+!internal/shamir/services/test_invalid_pk_01.pem
+!internal/shamir/services/test_valid_01.pem
+!internal/shamir/services/test_valid_02.pem
+!internal/shamir/services/salesforce_key_test.pem
+!internal/shamir/services/salesforce_key_test_invalid.pem
+*.crt
+!/deployments/helm/manabie-all-in-one/charts/*/secrets/*/local/*.secrets.yaml
+!/deployments/helm/platforms/nats-jetstream/secrets/*/local/*.secrets.yaml
+
+# Include the database schema used for testing
+!mock/testing/testdata/*/*.json
+manabie-com
+
+# Hasura project's artifacts other than metadata
+deployments/**/files/hasura**/migrations/
+deployments/**/files/hasura**/seeds/
+
+
+deployments/terraform/**/.terraform
+deployments/terraform/**/.terragrunt-cache
+
+# vcluster testing file
+kubeconfig.yaml
+vcluster-logs-*
+vendor/*
+
+# Overall Context Map
+src-gen/*
+!/src-gen/DDD-context-map_ContextMap.png
+
+node_modules
+
+# python cache
+__pycache__*
+docs/html
+/internal/usermgmt/pkg/hexagen/tmp/
