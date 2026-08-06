@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package merchant.v1;
+
+option go_package = "paynexus/pkg/genproto/merchant/v1;merchv1pb";
+
+// MerchantService cung cấp các API quản lý Doanh nghiệp & Khóa API Key
+service MerchantService {
+  rpc CreateMerchant (CreateMerchantRequest) returns (CreateMerchantResponse);
+  rpc GetMerchant (GetMerchantRequest) returns (GetMerchantResponse);
+  rpc GenerateAPIKey (GenerateAPIKeyRequest) returns (GenerateAPIKeyResponse);
+}
+
+message Merchant {
+  int64 id = 1;
+  string code = 2;
+  string name = 3;
+  string email = 4;
+  string status = 5;
+  string resource_path = 6;
+  string created_at = 7;
+}
+
+message CreateMerchantRequest {
+  string name = 1;
+  string email = 2;
+  string default_currency = 3;
+}
+
+message CreateMerchantResponse {
+  Merchant merchant = 1;
+}
+
+message GetMerchantRequest {
+  int64 id = 1;
+}
+
+message GetMerchantResponse {
+  Merchant merchant = 1;
+}
+
+message GenerateAPIKeyRequest {
+  int64 merchant_id = 1;
+  repeated string ip_whitelist = 2;
+}
+
+message GenerateAPIKeyResponse {
+  string public_key = 1;
+  string secret_key_private = 2; // Chỉ hiển thị 1 lần duy nhất khi khởi tạo
+  string expires_at = 3;
+}
