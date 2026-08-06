@@ -10,7 +10,7 @@ type ServerConfig struct {
 	ShutDownTimeout time.Duration `json:"shutdown_timeout"`
 }
 
-func DefaultConig(serviceName string, port string) ServerConfig {
+func DefaultConfig(serviceName string, port string) ServerConfig {
 	return ServerConfig{
 		ServiceName:     serviceName,
 		Port:            port,
