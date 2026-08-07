@@ -9,6 +9,9 @@ import (
 	"go.uber.org/zap"
 )
 
+var ErrNoRows = pgx.ErrNoRows
+
+// QueryExecer nằm ở tầng hạ tầng database
 type QueryExecer interface {
 	Exec(ctx context.Context, sql string, arguments ...any) (commandTag pgconn.CommandTag, err error)
 	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
