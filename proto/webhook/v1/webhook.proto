@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package webhook.v1;
+
+option go_package = "paynexus/pkg/genproto/webhook/v1;webhookv1pb";
+
+service WebhookService {
+  rpc DispatchWebhook (DispatchWebhookRequest) returns (DispatchWebhookResponse);
+  rpc RetryDLQWebhook (RetryDLQWebhookRequest) returns (RetryDLQWebhookResponse);
+}
+
+message WebhookEvent {
+  string event_id = 1;
+  int64 merchant_id = 2;
+  string event_type = 3; // example: "deposit.confirmed", "payout.processed"
+  string payload_json = 4;
+  string signature = 5;
+  int32 attempt_count = 6;
+  string created_at = 7;
+}
+
+message DispatchWebhookRequest {
+  WebhookEvent event = 1;
+  string target_url = 2;
+}
+
+message DispatchWebhookResponse {
+  bool success = 1;
+  int32 http_status_code = 2;
+  string response_body = 3;
+}
+
+message RetryDLQWebhookRequest {
+  string event_id = 1;
+}
+
+message RetryDLQWebhookResponse {
+  bool queued = 1;
+}
