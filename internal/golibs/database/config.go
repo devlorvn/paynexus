@@ -21,6 +21,13 @@ func (c *DBConfig) ConnectionString() string {
 	)
 }
 
+func (c *DBConfig) MigrationConnectionString() string {
+	return fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
+		c.User, c.Password, c.Host, c.Port, c.DBName, c.SSLMode,
+	)
+}
+
 func DefaultDBConfig() DBConfig {
 	return DBConfig{
 		Host:     "localhost",

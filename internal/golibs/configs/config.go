@@ -27,7 +27,7 @@ func LoadConfigFromEnv(serviceName string, defaultPort string) AppConfig {
 			ShutdownTimeout: time.Duration(getEnvAsInt("SHUTDOWN_TIMEOUT_SEC", 10)) * time.Second,
 		},
 		Postgres: database.DBConfig{
-			Host:     getEnv("POSTGRES_HOST", "localhost"),
+			Host:     getEnv("POSTGRES_HOST", "127.0.0.1"),
 			Port:     getEnv("POSTGRES_PORT", "5432"),
 			User:     getEnv("POSTGRES_USER", "postgres"),
 			Password: getEnv("POSTGRES_PASSWORD", "password"),
@@ -37,7 +37,7 @@ func LoadConfigFromEnv(serviceName string, defaultPort string) AppConfig {
 			MinConns: int32(getEnvAsInt("POSTGRES_MIN_CONNS", 5)),
 		},
 		Redis: redis.RedisConfig{
-			Host:     getEnv("REDIS_HOST", "localhost"),
+			Host:     getEnv("REDIS_HOST", "127.0.0.1"),
 			Port:     getEnv("REDIS_PORT", "6379"),
 			Password: getEnv("REDIS_PASSWORD", ""),
 			DB:       getEnvAsInt("REDIS_DB", 0),
