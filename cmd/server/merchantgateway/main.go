@@ -32,7 +32,7 @@ func main() {
 	cfg := bootstrap.DefaultConfig("merchantgateway", ":50051")
 
 	ignoreMethods := []string{
-		"/grpc.health.v1.health/Check",
+		"/grpc.health.v1.Health/Check",
 	}
 
 	tempLogger := zap.NewExample()
@@ -40,8 +40,7 @@ func main() {
 	authInterceptor := interceptors.UnaryAuthInterceptor(tempLogger, ignoreMethods)
 
 	// 2. Initial Bootstrap Engine
-	boot := bootstrap.NewServerBootstrap(cfg)
-	grpc.UnaryInterceptor(authInterceptor)
+	boot := bootstrap.NewServerBootstrap(cfg, grpc.UnaryInterceptor(authInterceptor))
 
 	dbCfg := database.DefaultDBConfig()
 	db, err := database.NewDBWrapper(ctx, dbCfg, boot.Logger)
