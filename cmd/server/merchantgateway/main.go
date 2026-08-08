@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"paynexus/internal/golibs/bootstrap"
+	"paynexus/internal/golibs/configs"
 	"paynexus/internal/golibs/database"
 	"paynexus/internal/golibs/interceptors"
 	"paynexus/internal/merchant/domain"
@@ -29,7 +30,7 @@ func (a *AppServer) RegisterGRPC(server *grpc.Server) {
 func main() {
 	ctx := context.Background()
 	// 1. Config server (Microservice name = merchantgateway, port = :50051)
-	cfg := bootstrap.DefaultConfig("merchantgateway", ":50051")
+	appCfg := configs.LoadConfigFromEnv("merchantgateway", ":50051")
 
 	ignoreMethods := []string{
 		"/grpc.health.v1.Health/Check",
@@ -40,10 +41,8 @@ func main() {
 	authInterceptor := interceptors.UnaryAuthInterceptor(tempLogger, ignoreMethods)
 
 	// 2. Initial Bootstrap Engine
-	boot := bootstrap.NewServerBootstrap(cfg, grpc.UnaryInterceptor(authInterceptor))
-
-	dbCfg := database.DefaultDBConfig()
-	db, err := database.NewDBWrapper(ctx, dbCfg, boot.Logger)
+	boot := bootstrap.NewServerBootstrap(appCfg.Server, grpc.UnaryInterceptor(authInterceptor))
+	db, err := database.NewDBWrapper(ctx, appCfg.Postgres, boot.Logger)
 	var dbExec database.QueryExecer
 	if err != nil {
 		boot.Logger.Warn("Không thể kết nối PostgreSQL local", zap.Error(err))

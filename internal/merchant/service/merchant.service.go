@@ -16,7 +16,7 @@ import (
 
 type MerchantServiceServerImpl struct {
 	merchv1pb.UnimplementedMerchantServiceServer
-	merchantRepo domain.MerchantRepository // 🟢 Service chỉ cần phụ thuộc vào Interface này
+	merchantRepo domain.MerchantRepository
 	logger       *zap.Logger
 }
 

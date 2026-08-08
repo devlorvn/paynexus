@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  # 1. PostgreSQL Database Server (RLS Supported)
+  postgres:
+    image: postgres:16-alpine
+    container_name: paynexus-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: paynexus_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Redis Server (Caching, Redlock, Idempotency)
+  redis:
+    image: redis:7-alpine
+    container_name: paynexus-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 3. NATS Server với JetStream Enabled (Event Streaming Message Bus)
+  nats:
+    image: nats:2.10-alpine
+    container_name: paynexus-nats
+    restart: always
+    command: ["-js", "-sd", "/data"]
+    ports:
+      - "4222:4222" # Port kết nối gRPC / Go Client
+      - "8222:8222" # Port Dashboard HTTP Monitoring
+    volumes:
+      - nats_data:/data
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "4222"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+  nats_data:

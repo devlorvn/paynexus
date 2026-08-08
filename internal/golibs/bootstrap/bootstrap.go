@@ -67,7 +67,7 @@ func (sb *ServerBootstrap) Run(registrar ServiceRegistrar) error {
 	sig := <-quit
 	sb.Logger.Info("Shutting down server", zap.String("signal", sig.String()))
 
-	timeoutCtx, cancel := context.WithTimeout(context.Background(), sb.Config.ShutDownTimeout)
+	timeoutCtx, cancel := context.WithTimeout(context.Background(), sb.Config.ShutdownTimeout)
 	defer cancel()
 
 	stopped := make(chan struct{})

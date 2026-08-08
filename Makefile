@@ -12,3 +12,7 @@ GO_VERSION ?= $(shell cat ./deployments/versions/go)
 
 gen-proto:
 	go run scripts/gen_proto.go
+dev-up:
+	docker compose up -d
+dev-down:
+	docker compose down
