@@ -49,3 +49,12 @@ type PaymentRepository interface {
 	// ExecuteSettlementTx thực thi ACID Transaction: Cộng số dư + Ghi dòng Nợ/Có vào Ledger
 	ExecuteSettlementTx(ctx context.Context, invoice *Invoice, txID string) error
 }
+
+type EventPublisher interface {
+	PublishEvent(ctx context.Context, subject string, payload []byte) error
+}
+
+type IdempotencyStorage interface {
+	GetResponse(ctx context.Context, key string) ([]byte, bool, error)
+	SaveResponse(ctx context.Context, key string, responseBytes []byte, ttl time.Duration) error
+}

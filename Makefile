@@ -21,5 +21,5 @@ migrate-down:
 gen-proto:
 	go run scripts/gen_proto/main.go
 
-dev-merchant-gateway:
+dev-merch:
 	go run cmd/server/merchantgateway/main.go
